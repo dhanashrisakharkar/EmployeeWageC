@@ -27,13 +27,22 @@ function GetWorkingHours(){
         esac
         echo $empHrs
 }
+function getEmployeeWage(){
+           empHours=$1
+           echo $(($empHours*$WAGE_PER_HOUR_IS))
+}
 
-while [ $Emp_Hrs -lt $TOTAL_WORKING_HRS ] && [ $Emp_Days -lt $TOTAL_WORKING_HRS ]
+
+while [ $Emp_Hrs -le $TOTAL_WORKING_HRS ] && [ $Emp_Days -le $TOTAL_WORKING_HRS ]
 do
                 ((Emp_Days++))
                 emphours=$( GetWorkingHours $((RANDOM%3)) )
-                echo $emphours
-                Emp_Hrs=$(( $Emp_Hrs + $emphours ))
+                Emp_Hrs=$(($Emp_Hrs+$emphours))
+                dailywages[$Emp_Days]=$( getEmployeeWage $emphours )
 done
-                TotalSalary=$(( $WAGE_PER_HOUR_IS * $emphours ))
-                echo "Total Salary Is " : $TotalSalary
+                TotalSalary=$(( $WAGE_PER_HOUR_IS * $Emp_Hrs ))
+                echo "Total salary is" : $TotalSalary
+                echo "daily wages is": ${dailywages[@]}
+                echo index ${!dailywages[@]}
+                echo lenght ${#dailywages[@]}
+
