@@ -9,6 +9,8 @@ TOTAL_WORKING_HRS=40
 Emp_Hrs=0
 Emp_Days=0
 
+declare -A dailywages
+
 function GetWorkingHours(){
 
          case $1 in
@@ -38,11 +40,13 @@ do
                 ((Emp_Days++))
                 emphours=$( GetWorkingHours $((RANDOM%3)) )
                 Emp_Hrs=$(($Emp_Hrs+$emphours))
-                dailywages[$Emp_Days]=$( getEmployeeWage $emphours )
+                dailywages["DAY"$Emp_Days]=$( getEmployeeWage $emphours )
+
 done
                 TotalSalary=$(( $WAGE_PER_HOUR_IS * $Emp_Hrs ))
                 echo "Total salary is" : $TotalSalary
                 echo "daily wages is": ${dailywages[@]}
                 echo index ${!dailywages[@]}
                 echo lenght ${#dailywages[@]}
+                echo  dailywages["DAY"$Emp_Days]
 
